@@ -22,6 +22,7 @@ executable hothello
                      , time
                      , gloss
                      , GLFW
+                     , OpenGL
   other-modules:       Othello.Solvers
                      , Othello.Core
                      , Othello.Game

@@ -7,8 +7,9 @@ import System.Environment
 import Data.List(unfoldr)
  
 import Othello.Core
-import Othello.Renderer.Gloss(play)
 import Othello.Game(looper, getPlayers)
+import qualified Othello.Renderer.Gloss as Gloss 
+import qualified Othello.Renderer.GLFW  as GLFW
  
 randomList time = unfoldr (Just . randomInt) .  pureMT $ round (time * 1000)
 
@@ -39,5 +40,5 @@ main = do
       , players = getPlayers proc
     }
  
-  play looper initialState 
+  GLFW.play looper initialState 
  
