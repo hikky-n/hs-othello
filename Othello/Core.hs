@@ -16,7 +16,7 @@ type Position = (Int,Int)
 type Stone = (StoneColor,Position)
 
 data ReversiTable = ReversiTable {
-    size   :: (Int,Int)
+    size   :: Int
   , stones :: [Stone]
 }
  
@@ -93,10 +93,10 @@ put table (color,pos) = table { stones = ((color,pos):rest) }
       (Empty,_)    -> stones table
       (color,dpos) -> filter ((/= dpos) . snd) (stones table)
 
-inRange (x,y) (w,h)
-  | x <  0 || w <= x = False
-  | y <  0 || h <= y = False
-  | otherwise        = True
+inRange (x,y) sz
+  | x <  0 || sz <= x = False
+  | y <  0 || sz <= y = False
+  | otherwise         = True
  
 reversibleStoneListByLine :: ReversiTable -> StoneColor -> Position -> Position -> [Stone]
 reversibleStoneListByLine table color pos direction@(nx,ny)
@@ -116,7 +116,7 @@ allReversibleStoneList table color pos =
  
 getEmptyList :: ReversiTable -> [Position]
 getEmptyList table = [
-    (x,y) | let (w,h) = size table, x <- [0 .. (w-1)], y <- [0 .. (h-1)], 
+    (x,y) | let sz = [0 .. (size table - 1)], x <- sz, y <- sz,
             not $ elem (x,y) (map snd $ stones table) ]
 
 

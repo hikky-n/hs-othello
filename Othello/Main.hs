@@ -17,19 +17,19 @@ baseState = GameState {
       fps        = 12
     , seeds      = [0]
     , step       = 0
-    , windowSize = (1366,768)
+    , windowSize = (640,480)
     , skipped    = False
     , finished   = False
-    , table      = initialTable (10,10)
+    , table      = initialTable 10
     , players    = []
     , history    = []
   }
   where
-    initialTable (size) = ReversiTable {
-        size   = size
-      , stones = [(White,(dx,dy)),(White,(dx+1,dy+1)),(Black,(dx+1,dy)),(Black,(dx,dy+1))]
+    initialTable sz = ReversiTable {
+        size   = sz
+      , stones = [(White,(m,m)),(White,(n,n)),(Black,(n,m)),(Black,(m,n))]
       }
-        where (dx,dy) = tmap (\x -> x `div` 2 - 1) size
+        where (m,n) = (sz `div` 2 - 1, sz `div` 2)
 
 main = do
   argv <- getArgs
@@ -40,5 +40,5 @@ main = do
       , players = getPlayers proc
     }
  
-  GLFW.play looper initialState 
+  GLFW.play looper (initialState {fps = 0})
  

@@ -7,10 +7,10 @@ import Data.Foldable
 
 looper :: Float -> GameState -> GameState
 looper _ state
-  | finished state                    = state
-  | step state < (fps state `div` 10) = nextStep
-  | (null $ movables state)           = skipState
-  | otherwise                         = nextState
+  | finished state         = state
+  | step state < fps state = nextStep
+  | null (movables state)  = skipState
+  | otherwise              = nextState
     where 
       nextStep  = state    {step = step state + 1}
       baseState = nextStep {

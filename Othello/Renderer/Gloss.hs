@@ -25,9 +25,9 @@ eventHandler (EventKey (MouseButton LeftButton) Down _ (x,y)) state
   | not (elem stonePos (movables state)) = state
   | otherwise = nextState
     where
-      (w,h)    = tmap fromIntegral $ windowSize state
-      (nx,ny)  = tmap fromIntegral $ size . table $ state
-      stonePos = tmap floor ( (0.5 + (x/w))*nx,(0.5+ (y/h))*ny)
+      (w,h)     = tmap fromIntegral $ windowSize state
+      n         = fromIntegral . size . table $ state
+      stonePos  = tmap floor ( (0.5 + (x/w))*n,(0.5+ (y/h))*n)
       nextState = state {
         step = 0
         , skipped  = False
@@ -67,9 +67,10 @@ drawTable state =
   where
     playScreen = Translate tx ty $ Pictures (frameLine:stonePics)
     sp         = windowSize state
+    sz         = size . table $ state
     (tx,ty)    = tmap ((* (-1)) . (/ 2). fromIntegral ) sp
-    frameLine  = tablePict (size . table $ state) sp
-    stonePics  = map (stonePict (size . table $ state) sp) (stones . table $ state)
+    frameLine  = tablePict (sz,sz) sp
+    stonePics  = map (stonePict (sz,sz) sp) (stones . table $ state)
  
 getWinnerText :: GameState -> Picture
 getWinnerText state = Color violet . Scale 0.5 0.5 . Text $ winnerText
