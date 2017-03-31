@@ -17,12 +17,22 @@ executable hothello
   hs-source-dirs:      .
   main-is:             Othello/Main.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+                       -j +RTS -A128m -n2m -RTS -O0
+                       --disable-optimization 
+                       --disable-library-vanilla
+                       --enable-executable-dynamic
   build-depends:       base
                      , mersenne-random-pure64
                      , time
                      , gloss
                      , GLFW
                      , OpenGL
+                     , OpenGLRaw
+                     , transformers
+                     , FTGL
+                     , text
+                     , JuicyPixels-repa
+                     , repa
   other-modules:       Othello.Solvers
                      , Othello.Core
                      , Othello.Game

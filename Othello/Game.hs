@@ -3,9 +3,10 @@ module Othello.Game where
 import Othello.Core
 import Othello.Solvers
 
-import Data.Foldable
+type Looper = Float  -> GameState -> GameState
+type Play   = Looper -> GameState -> IO ()
 
-looper :: Float -> GameState -> GameState
+looper :: Looper
 looper _ state
   | finished state         = state
   | step state < fps state = nextStep
@@ -31,6 +32,7 @@ looper _ state
         Man _ _    -> state {step = 0}
         AI  _ _ ai -> nextAiState ai
 
+getPlayers :: String -> [Player]
 getPlayers "cpu" = [ (AI "CPU1"    Black randomAI), (AI  "CPU2"   White randomAI) ]
 getPlayers "rev" = [ (AI "CPU"     Black randomAI), (Man "Player" White) ]
 getPlayers _     = [ (Man "Player" Black),          (AI  "CPU"    White randomAI) ]

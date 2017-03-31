@@ -1,15 +1,14 @@
 module Main where
  
-import Data.Time
-import Data.Time.Clock.POSIX
+import Data.Time.Clock.POSIX(getPOSIXTime)
 import System.Random.Mersenne.Pure64(pureMT,randomInt)
-import System.Environment
+import System.Environment(getArgs)
 import Data.List(unfoldr)
  
 import Othello.Core
 import Othello.Game(looper, getPlayers)
-import qualified Othello.Renderer.Gloss as Gloss 
-import qualified Othello.Renderer.GLFW  as GLFW
+import qualified Othello.Renderer.Gloss as Gloss
+import qualified Othello.Renderer.GLFW as GLFW
  
 randomList time = unfoldr (Just . randomInt) .  pureMT $ round (time * 1000)
 
@@ -33,12 +32,12 @@ baseState = GameState {
 
 main = do
   argv <- getArgs
-  let proc = if null argv then "man" else head argv
-  time    <- getPOSIXTime  
-  initialState <- return $ baseState {
-        seeds   = randomList time
-      , players = getPlayers proc
-    }
+  time <- getPOSIXTime  
+  let proc         = if null argv then "man" else head argv
+      initialState = baseState {
+          seeds   = randomList time
+        , players = getPlayers proc
+        }
  
   GLFW.play looper (initialState {fps = 0})
  

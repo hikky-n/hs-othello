@@ -16,9 +16,9 @@ type Position = (Int,Int)
 type Stone = (StoneColor,Position)
 
 data ReversiTable = ReversiTable {
-    size   :: Int
-  , stones :: [Stone]
-}
+      size   :: Int
+    , stones :: [Stone]
+  }
  
 type Solver = (GameState -> Maybe Position)
 
